@@ -36,7 +36,7 @@ class CachedEmbedder:
 
     def __init__(self, inner: Embedder) -> None:
         self.inner = inner
-        self.cache: dict[str, NDArray[Any]] = {}
+        self.cache: dict[str, Any] = {}
 
     def prime(self, texts: list[str], batch: int = 128) -> None:
         todo = [t for t in dict.fromkeys(texts) if t not in self.cache]
@@ -101,7 +101,7 @@ def score(
     version: int,
     mode: str,
     p: RetrievalParams,
-) -> dict[str, NDArray[Any]]:
+) -> dict[str, Any]:
     kmax = max(KS)
     sp = {k: np.zeros(len(questions)) for k in KS}
     pair = {k: np.zeros(len(questions)) for k in KS}
@@ -118,7 +118,7 @@ def score(
     return out
 
 
-def _summary(scores: dict[str, NDArray[Any]], mask: NDArray[Any] | None = None) -> dict[str, float]:
+def _summary(scores: dict[str, Any], mask: NDArray[Any] | None = None) -> dict[str, float]:
     return {m: float(v[mask].mean() if mask is not None else v.mean()) for m, v in scores.items()}
 
 
@@ -227,7 +227,7 @@ def run(
     }
     if sweep:
         modes["hybrid (tuned on dev)"] = ("hybrid", chosen)
-    per_mode: dict[str, dict[str, NDArray[Any]]] = {}
+    per_mode: dict[str, dict[str, Any]] = {}
     for name, (mode, p) in modes.items():
         per_mode[name] = score(retriever, test_questions, cid, version, mode, p)
     results["test"] = {
