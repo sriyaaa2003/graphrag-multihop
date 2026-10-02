@@ -1,0 +1,399 @@
+{
+  "slice": {
+    "offset": 500,
+    "n": 500
+  },
+  "n_questions": 500,
+  "n_paragraphs": 4930,
+  "embed_seconds": 601.7,
+  "ingest_seconds": 57.5,
+  "reused_index": false,
+  "defaults": {
+    "graph_strategy": "expand",
+    "w_graph": 1.0,
+    "seed_from_dense_top_n": 1,
+    "expand_hops": 1
+  },
+  "sweep_dev_pair@5": [
+    {
+      "graph_strategy": "ppr",
+      "w_graph": 0.5,
+      "seed_from_dense_top_n": 1,
+      "max_hops": 2,
+      "pair@5_dev": 0.776
+    },
+    {
+      "graph_strategy": "ppr",
+      "w_graph": 0.5,
+      "seed_from_dense_top_n": 1,
+      "max_hops": 3,
+      "pair@5_dev": 0.78
+    },
+    {
+      "graph_strategy": "expand",
+      "w_graph": 0.5,
+      "seed_from_dense_top_n": 1,
+      "expand_hops": 1,
+      "pair@5_dev": 0.82
+    },
+    {
+      "graph_strategy": "expand",
+      "w_graph": 0.5,
+      "seed_from_dense_top_n": 1,
+      "expand_hops": 2,
+      "pair@5_dev": 0.78
+    },
+    {
+      "graph_strategy": "ppr",
+      "w_graph": 0.5,
+      "seed_from_dense_top_n": 3,
+      "max_hops": 2,
+      "pair@5_dev": 0.792
+    },
+    {
+      "graph_strategy": "ppr",
+      "w_graph": 0.5,
+      "seed_from_dense_top_n": 3,
+      "max_hops": 3,
+      "pair@5_dev": 0.792
+    },
+    {
+      "graph_strategy": "expand",
+      "w_graph": 0.5,
+      "seed_from_dense_top_n": 3,
+      "expand_hops": 1,
+      "pair@5_dev": 0.792
+    },
+    {
+      "graph_strategy": "expand",
+      "w_graph": 0.5,
+      "seed_from_dense_top_n": 3,
+      "expand_hops": 2,
+      "pair@5_dev": 0.772
+    },
+    {
+      "graph_strategy": "ppr",
+      "w_graph": 1.0,
+      "seed_from_dense_top_n": 1,
+      "max_hops": 2,
+      "pair@5_dev": 0.748
+    },
+    {
+      "graph_strategy": "ppr",
+      "w_graph": 1.0,
+      "seed_from_dense_top_n": 1,
+      "max_hops": 3,
+      "pair@5_dev": 0.752
+    },
+    {
+      "graph_strategy": "expand",
+      "w_graph": 1.0,
+      "seed_from_dense_top_n": 1,
+      "expand_hops": 1,
+      "pair@5_dev": 0.82
+    },
+    {
+      "graph_strategy": "expand",
+      "w_graph": 1.0,
+      "seed_from_dense_top_n": 1,
+      "expand_hops": 2,
+      "pair@5_dev": 0.784
+    },
+    {
+      "graph_strategy": "ppr",
+      "w_graph": 1.0,
+      "seed_from_dense_top_n": 3,
+      "max_hops": 2,
+      "pair@5_dev": 0.752
+    },
+    {
+      "graph_strategy": "ppr",
+      "w_graph": 1.0,
+      "seed_from_dense_top_n": 3,
+      "max_hops": 3,
+      "pair@5_dev": 0.752
+    },
+    {
+      "graph_strategy": "expand",
+      "w_graph": 1.0,
+      "seed_from_dense_top_n": 3,
+      "expand_hops": 1,
+      "pair@5_dev": 0.792
+    },
+    {
+      "graph_strategy": "expand",
+      "w_graph": 1.0,
+      "seed_from_dense_top_n": 3,
+      "expand_hops": 2,
+      "pair@5_dev": 0.772
+    },
+    {
+      "graph_strategy": "ppr",
+      "w_graph": 2.0,
+      "seed_from_dense_top_n": 1,
+      "max_hops": 2,
+      "pair@5_dev": 0.692
+    },
+    {
+      "graph_strategy": "ppr",
+      "w_graph": 2.0,
+      "seed_from_dense_top_n": 1,
+      "max_hops": 3,
+      "pair@5_dev": 0.696
+    },
+    {
+      "graph_strategy": "expand",
+      "w_graph": 2.0,
+      "seed_from_dense_top_n": 1,
+      "expand_hops": 1,
+      "pair@5_dev": 0.812
+    },
+    {
+      "graph_strategy": "expand",
+      "w_graph": 2.0,
+      "seed_from_dense_top_n": 1,
+      "expand_hops": 2,
+      "pair@5_dev": 0.78
+    },
+    {
+      "graph_strategy": "ppr",
+      "w_graph": 2.0,
+      "seed_from_dense_top_n": 3,
+      "max_hops": 2,
+      "pair@5_dev": 0.724
+    },
+    {
+      "graph_strategy": "ppr",
+      "w_graph": 2.0,
+      "seed_from_dense_top_n": 3,
+      "max_hops": 3,
+      "pair@5_dev": 0.724
+    },
+    {
+      "graph_strategy": "expand",
+      "w_graph": 2.0,
+      "seed_from_dense_top_n": 3,
+      "expand_hops": 1,
+      "pair@5_dev": 0.792
+    },
+    {
+      "graph_strategy": "expand",
+      "w_graph": 2.0,
+      "seed_from_dense_top_n": 3,
+      "expand_hops": 2,
+      "pair@5_dev": 0.772
+    }
+  ],
+  "chosen_params": {
+    "graph_strategy": "expand",
+    "w_graph": 0.5,
+    "seed_from_dense_top_n": 1,
+    "expand_hops": 1
+  },
+  "test": {
+    "vector": {
+      "all": {
+        "sp@2": 0.736,
+        "sp@5": 0.878,
+        "sp@10": 0.924,
+        "pair@2": 0.516,
+        "pair@5": 0.772,
+        "pair@10": 0.852
+      },
+      "bridge": {
+        "sp@2": 0.6975,
+        "sp@5": 0.8475,
+        "sp@10": 0.905,
+        "pair@2": 0.445,
+        "pair@5": 0.715,
+        "pair@10": 0.815
+      },
+      "comparison": {
+        "sp@2": 0.89,
+        "sp@5": 1.0,
+        "sp@10": 1.0,
+        "pair@2": 0.8,
+        "pair@5": 1.0,
+        "pair@10": 1.0
+      }
+    },
+    "graph only (expand)": {
+      "all": {
+        "sp@2": 0.724,
+        "sp@5": 0.824,
+        "sp@10": 0.846,
+        "pair@2": 0.524,
+        "pair@5": 0.712,
+        "pair@10": 0.748
+      },
+      "bridge": {
+        "sp@2": 0.685,
+        "sp@5": 0.79,
+        "sp@10": 0.8175,
+        "pair@2": 0.465,
+        "pair@5": 0.66,
+        "pair@10": 0.705
+      },
+      "comparison": {
+        "sp@2": 0.88,
+        "sp@5": 0.96,
+        "sp@10": 0.96,
+        "pair@2": 0.76,
+        "pair@5": 0.92,
+        "pair@10": 0.92
+      }
+    },
+    "hybrid, PageRank (first version)": {
+      "all": {
+        "sp@2": 0.702,
+        "sp@5": 0.89,
+        "sp@10": 0.95,
+        "pair@2": 0.456,
+        "pair@5": 0.804,
+        "pair@10": 0.908
+      },
+      "bridge": {
+        "sp@2": 0.685,
+        "sp@5": 0.8725,
+        "sp@10": 0.9375,
+        "pair@2": 0.425,
+        "pair@5": 0.775,
+        "pair@10": 0.885
+      },
+      "comparison": {
+        "sp@2": 0.77,
+        "sp@5": 0.96,
+        "sp@10": 1.0,
+        "pair@2": 0.58,
+        "pair@5": 0.92,
+        "pair@10": 1.0
+      }
+    },
+    "hybrid, expand (defaults)": {
+      "all": {
+        "sp@2": 0.756,
+        "sp@5": 0.914,
+        "sp@10": 0.956,
+        "pair@2": 0.556,
+        "pair@5": 0.848,
+        "pair@10": 0.924
+      },
+      "bridge": {
+        "sp@2": 0.7275,
+        "sp@5": 0.8975,
+        "sp@10": 0.945,
+        "pair@2": 0.505,
+        "pair@5": 0.82,
+        "pair@10": 0.905
+      },
+      "comparison": {
+        "sp@2": 0.87,
+        "sp@5": 0.98,
+        "sp@10": 1.0,
+        "pair@2": 0.76,
+        "pair@5": 0.96,
+        "pair@10": 1.0
+      }
+    },
+    "hybrid (tuned on dev)": {
+      "all": {
+        "sp@2": 0.756,
+        "sp@5": 0.906,
+        "sp@10": 0.946,
+        "pair@2": 0.556,
+        "pair@5": 0.832,
+        "pair@10": 0.904
+      },
+      "bridge": {
+        "sp@2": 0.7275,
+        "sp@5": 0.8875,
+        "sp@10": 0.9325,
+        "pair@2": 0.505,
+        "pair@5": 0.8,
+        "pair@10": 0.88
+      },
+      "comparison": {
+        "sp@2": 0.87,
+        "sp@5": 0.98,
+        "sp@10": 1.0,
+        "pair@2": 0.76,
+        "pair@5": 0.96,
+        "pair@10": 1.0
+      }
+    }
+  },
+  "n_test": 250,
+  "test_counts_by_type": {
+    "bridge": 200,
+    "comparison": 50
+  },
+  "pair@2_minus_vector_ci95": {
+    "hybrid, PageRank (first version)": {
+      "diff": -0.06,
+      "ci95": [
+        -0.116,
+        -0.004
+      ]
+    },
+    "hybrid, expand (defaults)": {
+      "diff": 0.04,
+      "ci95": [
+        0.004,
+        0.076
+      ]
+    },
+    "hybrid (tuned on dev)": {
+      "diff": 0.04,
+      "ci95": [
+        0.004,
+        0.076
+      ]
+    }
+  },
+  "pair@5_minus_vector_ci95": {
+    "hybrid, PageRank (first version)": {
+      "diff": 0.032,
+      "ci95": [
+        -0.008,
+        0.072
+      ]
+    },
+    "hybrid, expand (defaults)": {
+      "diff": 0.076,
+      "ci95": [
+        0.036,
+        0.1161
+      ]
+    },
+    "hybrid (tuned on dev)": {
+      "diff": 0.06,
+      "ci95": [
+        0.024,
+        0.1
+      ]
+    }
+  },
+  "pair@10_minus_vector_ci95": {
+    "hybrid, PageRank (first version)": {
+      "diff": 0.056,
+      "ci95": [
+        0.024,
+        0.092
+      ]
+    },
+    "hybrid, expand (defaults)": {
+      "diff": 0.072,
+      "ci95": [
+        0.04,
+        0.108
+      ]
+    },
+    "hybrid (tuned on dev)": {
+      "diff": 0.052,
+      "ci95": [
+        0.024,
+        0.08
+      ]
+    }
+  }
+}

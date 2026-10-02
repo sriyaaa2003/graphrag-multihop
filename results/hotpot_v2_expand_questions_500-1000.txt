@@ -1,0 +1,26 @@
+HotpotQA distractor, questions 500-1000 pooled into 4930 paragraphs; held-out test half = 250 questions
+
+| Method | SP-Recall@2 | SP-Recall@5 | SP-Recall@10 | Pair@2 | Pair@5 | Pair@10 |
+|---|---|---|---|---|---|---|
+| vector | 0.736 | 0.878 | 0.924 | 0.516 | 0.772 | 0.852 |
+| graph only (expand) | 0.724 | 0.824 | 0.846 | 0.524 | 0.712 | 0.748 |
+| hybrid, PageRank (first version) | 0.702 | 0.890 | 0.950 | 0.456 | 0.804 | 0.908 |
+| hybrid, expand (defaults) | 0.756 | 0.914 | 0.956 | 0.556 | 0.848 | 0.924 |
+| hybrid (tuned on dev) | 0.756 | 0.906 | 0.946 | 0.556 | 0.832 | 0.904 |
+
+chosen on dev half: {'graph_strategy': 'expand', 'w_graph': 0.5, 'seed_from_dense_top_n': 1, 'expand_hops': 1}
+
+pair@2 difference vs vector, with 95% bootstrap CI:
+  hybrid, PageRank (first version): -0.060  CI [-0.116, -0.004]
+  hybrid, expand (defaults): +0.040  CI [0.004, 0.076]
+  hybrid (tuned on dev): +0.040  CI [0.004, 0.076]
+
+pair@5 difference vs vector, with 95% bootstrap CI:
+  hybrid, PageRank (first version): +0.032  CI [-0.008, 0.072]
+  hybrid, expand (defaults): +0.076  CI [0.036, 0.1161]
+  hybrid (tuned on dev): +0.060  CI [0.024, 0.1]
+
+pair@10 difference vs vector, with 95% bootstrap CI:
+  hybrid, PageRank (first version): +0.056  CI [0.024, 0.092]
+  hybrid, expand (defaults): +0.072  CI [0.04, 0.108]
+  hybrid (tuned on dev): +0.052  CI [0.024, 0.08]
