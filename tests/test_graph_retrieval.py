@@ -242,3 +242,14 @@ def test_api(svc, settings):
     assert st["documents"] == 1 and st["entities"] >= 1
     assert client.delete("/v1/collections/c/documents/z", headers=admin).status_code == 200
     assert client.delete("/v1/collections/c/documents/z", headers=admin).status_code == 404
+
+
+def test_lenient_abstention_and_content_free_answers(svc):
+    build_multihop_corpus(svc)
+    svc.llm.reply = "insufficient context"
+    r = svc.query("c", Q, generate=True)
+    assert r.abstained and r.answer == "INSUFFICIENT_CONTEXT"
+    svc.llm.reply = "[1]"
+    with pytest.raises(ServiceError) as e:
+        svc.query("c", Q, generate=True)
+    assert e.value.status == 502

@@ -136,7 +136,7 @@ Add `--reuse-db` to re-run retrieval experiments on an existing index (only the 
 
 ## Limitations
 
-- Retrieval evaluation only; answer accuracy not measured. Live LLM extraction and generation have not been run against a real model (the clients are tested against a local server imitating the wire formats).
+- Retrieval evaluation only; answer accuracy not measured. Generation was run live once on a small local model (Ollama `llama3.2:3b`): the multi-hop example question retrieved both documents and was answered correctly from the second hop with a citation. LLM-based *extraction* has not been run against a real model, and the Anthropic client has only been tested against a local server imitating its wire format.
 - The default extractor targets English, capitalised-name text. Languages without capitalisation, or text where entities are lowercase, need the LLM extractor or a different one.
 - In-memory graph per collection (networkx): fine for tens of thousands of entities; not for millions.
 - No permissions or multi-tenancy; do not index content that some callers must not see (see the sibling project `permission-aware-rag`).
@@ -145,7 +145,7 @@ Add `--reuse-db` to re-run retrieval experiments on an existing index (only the 
 
 ```bash
 pip install -e ".[dev]"
-pytest -q                       # 41 tests (11 of them exercise the LLM clients against a local server)
+pytest -q                       # 42 tests (11 of them exercise the LLM clients against a local server)
 ruff check src tests && ruff format --check src tests
 mypy src
 ```

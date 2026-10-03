@@ -22,6 +22,22 @@ SYSTEM_PROMPT = (
 _CITATION = re.compile(r"\[(\d+)\]")
 
 
+def _squash(text: str) -> str:
+    return re.sub(r"[^a-z0-9]+", "", text.lower())
+
+
+def is_abstention(text: str, abstain_token: str) -> bool:
+    """Lenient: case, spaces, underscores and trailing punctuation are ignored, because small
+    models routinely write "INSUFFICIENT CONTEXT" for the requested token."""
+    squashed = _squash(text)
+    return bool(squashed) and squashed.startswith(_squash(abstain_token))
+
+
+def has_content(text: str, min_chars: int) -> bool:
+    """True if the answer has real text besides its citation markers ("[1]" alone does not)."""
+    return sum(ch.isalpha() for ch in _CITATION.sub("", text)) >= min_chars
+
+
 class ServiceError(Exception):
     def __init__(self, message: str, *, status: int) -> None:
         super().__init__(message)
@@ -147,11 +163,15 @@ class GraphRagService:
         except LLMError as exc:
             raise ServiceError("the language model is unavailable", status=502) from exc
         text = out.text.strip()
-        if text == self.settings.abstain_token:
-            result.answer, result.abstained = text, True
+        if is_abstention(text, self.settings.abstain_token):
+            result.answer, result.abstained = self.settings.abstain_token, True
             return result
         cited = sorted({int(n) for n in _CITATION.findall(text)})
-        if not cited or any(n < 1 or n > len(used) for n in cited):
+        if (
+            not cited
+            or any(n < 1 or n > len(used) for n in cited)
+            or not has_content(text, self.settings.min_answer_chars)
+        ):
             raise ServiceError("the model's answer failed citation validation", status=502)
         result.answer = text
         result.citations = [
