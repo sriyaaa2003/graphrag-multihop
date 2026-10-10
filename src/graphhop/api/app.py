@@ -11,7 +11,7 @@ from .. import graphstore
 from ..config import Settings, get_settings
 from ..db import Database
 from ..embeddings import Embedder, FastEmbedEmbedder
-from ..extract import Extractor, LLMExtractor, ProperNounExtractor
+from ..extract import AugmentedExtractor, Extractor, LLMExtractor, ProperNounExtractor
 from ..llm import build_provider
 from ..service import GraphRagService, ServiceError
 
@@ -51,11 +51,16 @@ def build_service(settings: Settings, embedder: Embedder | None = None) -> Graph
     if settings.extractor == "llm":
         if llm is None:
             raise RuntimeError("GH_EXTRACTOR=llm requires an LLM to be configured")
-        extractor = LLMExtractor(llm)
+        extractor = AugmentedExtractor(ProperNounExtractor(), LLMExtractor(llm))
     else:
         extractor = ProperNounExtractor()
     return GraphRagService(
-        db, embedder or FastEmbedEmbedder(settings.embedding_model), extractor, settings, llm
+        db,
+        embedder or FastEmbedEmbedder(settings.embedding_model),
+        extractor,
+        settings,
+        llm,
+        query_extractor=ProperNounExtractor(),
     )
 
 

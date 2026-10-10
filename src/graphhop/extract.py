@@ -10,7 +10,10 @@ route to higher-quality relations when an LLM is available.
 from __future__ import annotations
 
 import json
+import logging
 import re
+import threading
+from concurrent.futures import ThreadPoolExecutor
 from dataclasses import dataclass, field
 from typing import Protocol
 
@@ -218,3 +221,48 @@ class LLMExtractor:
 
 class ExtractionError(Exception):
     pass
+
+
+log = logging.getLogger("graphhop.extract")
+
+
+class AugmentedExtractor:
+    """Proper-noun co-occurrence edges plus typed triples from an LLM.
+
+    The base extractor still provides sentence entities (so the graph keeps its co-occurrence
+    edges); the LLM adds typed (subject, relation, object) edges on top. If the LLM fails or
+    returns invalid output for a piece, that piece keeps the base extraction only and the failure
+    is counted in ``failures``. Query-time linking should use the base extractor, not this one.
+    """
+
+    def __init__(self, base: Extractor, llm_extractor: Extractor) -> None:
+        self.base, self.llm_extractor = base, llm_extractor
+        self.calls = 0
+        self.failures = 0
+        self.triples_total = 0
+        self._lock = threading.Lock()
+        self._memo: dict[str, Extraction] = {}
+
+    def _one(self, text: str) -> Extraction:
+        out = self.base.extract(text)
+        try:
+            extra = self.llm_extractor.extract(text)
+            ok = True
+        except ExtractionError as exc:
+            log.warning("LLM extraction failed: %s", exc)
+            extra, ok = Extraction([]), False
+        with self._lock:
+            self.calls += 1
+            self.failures += 0 if ok else 1
+            self.triples_total += len(extra.triples)
+        return Extraction(out.sentences, list(extra.triples))
+
+    def prefetch(self, texts: list[str], workers: int = 16) -> None:
+        """Run the LLM over many pieces in parallel and remember the results."""
+        todo = [t for t in dict.fromkeys(texts) if t not in self._memo]
+        with ThreadPoolExecutor(workers) as pool:
+            for text, ex in zip(todo, pool.map(self._one, todo), strict=True):
+                self._memo[text] = ex
+
+    def extract(self, text: str) -> Extraction:
+        return self._memo.get(text) or self._one(text)

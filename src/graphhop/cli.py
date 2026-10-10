@@ -87,6 +87,20 @@ def _cmd_eval(args: argparse.Namespace) -> int:
     from .eval_hotpot import format_table, run
 
     s = get_settings()
+    llm_extractor = None
+    if args.llm_extractor:
+        from .extract import LLMExtractor
+        from .llm import build_provider
+
+        llm_extractor = LLMExtractor(
+            build_provider(
+                s.llm_provider or "openai_compat",
+                s.llm_model_id or "extractor",
+                base_url=s.llm_base_url,
+                api_key_env=s.llm_api_key_env,
+                timeout=s.llm_timeout_seconds,
+            )
+        )
     res = run(
         args.parquet,
         args.n,
@@ -96,6 +110,7 @@ def _cmd_eval(args: argparse.Namespace) -> int:
         sweep=not args.no_sweep,
         offset=args.offset,
         reuse_db=args.reuse_db,
+        llm_extractor=llm_extractor,
     )
     print(format_table(res))
     if "chosen_params" in res:
@@ -138,6 +153,11 @@ def main(argv: list[str] | None = None) -> int:
     e.add_argument("--offset", type=int, default=0, help="first question of the slice")
     e.add_argument("--reuse-db", action="store_true", help="reuse an existing index at --db")
     e.add_argument("--no-sweep", action="store_true")
+    e.add_argument(
+        "--llm-extractor",
+        action="store_true",
+        help="add LLM triples at ingestion (needs GH_LLM_PROVIDER / GH_LLM_BASE_URL / GH_LLM_MODEL_ID)",
+    )
     e.set_defaults(func=_cmd_eval)
 
     args = p.parse_args(argv)

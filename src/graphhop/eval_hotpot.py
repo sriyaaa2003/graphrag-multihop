@@ -25,7 +25,7 @@ from numpy.typing import NDArray
 from . import graphstore
 from .db import Database
 from .embeddings import Embedder
-from .extract import ProperNounExtractor
+from .extract import AugmentedExtractor, Extractor, LLMExtractor, ProperNounExtractor
 from .retrieve import RetrievalParams, Retriever
 
 KS = (2, 5, 10)
@@ -55,9 +55,12 @@ class CachedEmbedder:
 def load_hotpot(
     parquet_path: str, n: int, offset: int = 0
 ) -> tuple[list[dict[str, Any]], dict[str, str]]:
-    import pyarrow.parquet as pq
+    if parquet_path.endswith(".json"):  # same rows exported as JSON (no pyarrow needed)
+        rows = json.loads(Path(parquet_path).read_text(encoding="utf-8"))[offset : offset + n]
+    else:
+        import pyarrow.parquet as pq
 
-    rows = pq.read_table(parquet_path).slice(offset, n).to_pylist()
+        rows = pq.read_table(parquet_path).slice(offset, n).to_pylist()
     paragraphs: dict[str, str] = {}
     questions = []
     for r in rows:
@@ -75,8 +78,22 @@ def load_hotpot(
     return questions, paragraphs
 
 
-def build_index(db: Database, embedder: Embedder, paragraphs: dict[str, str]) -> float:
-    extractor = ProperNounExtractor()
+def build_index(
+    db: Database,
+    embedder: Embedder,
+    paragraphs: dict[str, str],
+    llm_extractor: LLMExtractor | None = None,
+) -> float:
+    extractor: Extractor = ProperNounExtractor()
+    if llm_extractor is not None:
+        aug = AugmentedExtractor(extractor, llm_extractor)
+        aug.prefetch([t for t in paragraphs.values() if t.strip()])
+        print(
+            f"LLM extraction: {aug.calls} calls, {aug.failures} failed, "
+            f"{aug.triples_total} triples",
+            flush=True,
+        )
+        extractor = aug
     params = graphstore.IngestParams(chunk_chars=100_000, overlap=0, title_as_entity=True)
     t0 = time.perf_counter()
     for title, text in paragraphs.items():
@@ -166,6 +183,7 @@ def run(
     sweep: bool = True,
     offset: int = 0,
     reuse_db: bool = False,
+    llm_extractor: LLMExtractor | None = None,
 ) -> dict[str, Any]:
     questions, paragraphs = load_hotpot(parquet_path, n, offset)
     cached = CachedEmbedder(embedder)
@@ -184,7 +202,7 @@ def run(
         if Path(db_path).exists():
             Path(db_path).unlink()
         db = Database(db_path)
-        ingest_s = build_index(db, cached, paragraphs)
+        ingest_s = build_index(db, cached, paragraphs, llm_extractor)
     row = db.conn.execute("SELECT id, graph_version FROM collections").fetchone()
     cid, version = int(row["id"]), int(row["graph_version"])
     retriever = Retriever(db, cached, ProperNounExtractor())
@@ -202,6 +220,7 @@ def run(
         "embed_seconds": round(embed_s, 1),
         "ingest_seconds": round(ingest_s, 1),
         "reused_index": reuse,
+        "extractor": "proper_noun + LLM triples" if llm_extractor else "proper_noun",
         "defaults": _describe(default),
     }
 

@@ -61,6 +61,7 @@ class GraphRagService:
         extractor: Extractor,
         settings: Settings,
         llm: LLMProvider | None = None,
+        query_extractor: Extractor | None = None,
     ) -> None:
         self.db, self.embedder, self.extractor, self.settings, self.llm = (
             db,
@@ -69,7 +70,7 @@ class GraphRagService:
             settings,
             llm,
         )
-        self.retriever = Retriever(db, embedder, extractor)
+        self.retriever = Retriever(db, embedder, query_extractor or extractor)
 
     def params(
         self,

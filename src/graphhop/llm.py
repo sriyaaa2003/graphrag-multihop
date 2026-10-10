@@ -67,6 +67,7 @@ class AnthropicProvider:
                     "messages": [{"role": "user", "content": user}],
                 },
                 timeout=self._timeout,
+                follow_redirects=True,  # hosted gateways (e.g. Modal) answer long requests with a 303
             )
         except httpx.TransportError as exc:
             raise LLMError(f"transport error: {exc}", retryable=True) from exc
@@ -110,6 +111,7 @@ class OpenAICompatProvider:
                     ],
                 },
                 timeout=self._timeout,
+                follow_redirects=True,  # hosted gateways (e.g. Modal) answer long requests with a 303
             )
         except httpx.TransportError as exc:
             raise LLMError(f"transport error: {exc}", retryable=True) from exc

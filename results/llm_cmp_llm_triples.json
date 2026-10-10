@@ -1,0 +1,177 @@
+{
+  "slice": {
+    "offset": 500,
+    "n": 500
+  },
+  "n_questions": 500,
+  "n_paragraphs": 4930,
+  "embed_seconds": 1207.1,
+  "ingest_seconds": 367.0,
+  "reused_index": false,
+  "extractor": "proper_noun + LLM triples",
+  "defaults": {
+    "graph_strategy": "expand",
+    "w_graph": 1.0,
+    "seed_from_dense_top_n": 1,
+    "expand_hops": 1
+  },
+  "test": {
+    "vector": {
+      "all": {
+        "sp@2": 0.736,
+        "sp@5": 0.878,
+        "sp@10": 0.924,
+        "pair@2": 0.516,
+        "pair@5": 0.772,
+        "pair@10": 0.852
+      },
+      "bridge": {
+        "sp@2": 0.6975,
+        "sp@5": 0.8475,
+        "sp@10": 0.905,
+        "pair@2": 0.445,
+        "pair@5": 0.715,
+        "pair@10": 0.815
+      },
+      "comparison": {
+        "sp@2": 0.89,
+        "sp@5": 1.0,
+        "sp@10": 1.0,
+        "pair@2": 0.8,
+        "pair@5": 1.0,
+        "pair@10": 1.0
+      }
+    },
+    "graph only (expand)": {
+      "all": {
+        "sp@2": 0.732,
+        "sp@5": 0.834,
+        "sp@10": 0.856,
+        "pair@2": 0.54,
+        "pair@5": 0.732,
+        "pair@10": 0.768
+      },
+      "bridge": {
+        "sp@2": 0.69,
+        "sp@5": 0.795,
+        "sp@10": 0.8225,
+        "pair@2": 0.475,
+        "pair@5": 0.67,
+        "pair@10": 0.715
+      },
+      "comparison": {
+        "sp@2": 0.9,
+        "sp@5": 0.99,
+        "sp@10": 0.99,
+        "pair@2": 0.8,
+        "pair@5": 0.98,
+        "pair@10": 0.98
+      }
+    },
+    "hybrid, PageRank (first version)": {
+      "all": {
+        "sp@2": 0.726,
+        "sp@5": 0.9,
+        "sp@10": 0.956,
+        "pair@2": 0.496,
+        "pair@5": 0.824,
+        "pair@10": 0.92
+      },
+      "bridge": {
+        "sp@2": 0.7075,
+        "sp@5": 0.88,
+        "sp@10": 0.945,
+        "pair@2": 0.465,
+        "pair@5": 0.79,
+        "pair@10": 0.9
+      },
+      "comparison": {
+        "sp@2": 0.8,
+        "sp@5": 0.98,
+        "sp@10": 1.0,
+        "pair@2": 0.62,
+        "pair@5": 0.96,
+        "pair@10": 1.0
+      }
+    },
+    "hybrid, expand (defaults)": {
+      "all": {
+        "sp@2": 0.76,
+        "sp@5": 0.916,
+        "sp@10": 0.956,
+        "pair@2": 0.564,
+        "pair@5": 0.852,
+        "pair@10": 0.924
+      },
+      "bridge": {
+        "sp@2": 0.7275,
+        "sp@5": 0.895,
+        "sp@10": 0.945,
+        "pair@2": 0.505,
+        "pair@5": 0.815,
+        "pair@10": 0.905
+      },
+      "comparison": {
+        "sp@2": 0.89,
+        "sp@5": 1.0,
+        "sp@10": 1.0,
+        "pair@2": 0.8,
+        "pair@5": 1.0,
+        "pair@10": 1.0
+      }
+    }
+  },
+  "n_test": 250,
+  "test_counts_by_type": {
+    "bridge": 200,
+    "comparison": 50
+  },
+  "pair@2_minus_vector_ci95": {
+    "hybrid, PageRank (first version)": {
+      "diff": -0.02,
+      "ci95": [
+        -0.072,
+        0.032
+      ]
+    },
+    "hybrid, expand (defaults)": {
+      "diff": 0.048,
+      "ci95": [
+        0.02,
+        0.08
+      ]
+    }
+  },
+  "pair@5_minus_vector_ci95": {
+    "hybrid, PageRank (first version)": {
+      "diff": 0.052,
+      "ci95": [
+        0.012,
+        0.092
+      ]
+    },
+    "hybrid, expand (defaults)": {
+      "diff": 0.08,
+      "ci95": [
+        0.04,
+        0.12
+      ]
+    }
+  },
+  "pair@10_minus_vector_ci95": {
+    "hybrid, PageRank (first version)": {
+      "diff": 0.068,
+      "ci95": [
+        0.032,
+        0.104
+      ]
+    },
+    "hybrid, expand (defaults)": {
+      "diff": 0.072,
+      "ci95": [
+        0.04,
+        0.108
+      ]
+    }
+  }
+}
